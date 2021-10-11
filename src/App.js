@@ -1,12 +1,12 @@
- 
+ import './index.js'
  
 
 function App() {
   return (
-    <div className="App">
-      <h2>
+    <div className="App container mt-5">
+      <h1 className="text-primary"><i className="bi bi-diagram-2-fill"></i>
         Hello World
-      </h2>
+      </h1 >
     </div>
   );
 }
