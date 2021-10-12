@@ -1,6 +1,40 @@
 import React from "react";
 
 const RepoInfo = ({ repo }) => {
+  let license;
+
+  switch (repo.licenseInfo?.spdxId) {
+    case undefined:
+      license = (
+        <span
+          style={{ fontSize: ".6em" }}
+          className="px-1 py-0 ms-1 d-inlineblock btn btn-sm btn-danger"
+        >
+          NO LICENSE
+        </span>
+      );
+      break;
+    case "NOASSERTION":
+      license = (
+        <span
+          style={{ fontSize: ".6em" }}
+          className="px-1 py-0 ms-1 d-inlineblock btn btn-sm btn-warning"
+        >
+          {repo.licenseInfo.spdxId}
+        </span>
+      );
+      break;
+    default:
+      license = (
+        <span
+          style={{ fontSize: ".6em" }}
+          className="px-1 py-0 ms-1 d-inlineblock btn btn-sm btn-success"
+        >
+          {repo.licenseInfo.spdxId}
+        </span>
+      );
+  }
+
   return (
     <li className="list-group-item" key={repo.id.toString()}>
       <div className="d-flex justify-content-between align-items-center">
@@ -10,17 +44,21 @@ const RepoInfo = ({ repo }) => {
           </a>
           <p className="small">{repo.description}</p>
         </div>
-        <span
-          style={{ fontSize: ".6em" }}
-          className={
-            "d-inline-block btn btn-sm px-1 py-1 ms-1 " +
-            (repo.viewerSubscription === "SUBSCRIBED"
-              ? "btn-success"
-              : "btn-outline-secondary")
-          }
-        >
-          {repo.viewerSubscription}
-        </span>
+        <div className="text-nowrap ms-3">
+          {repo.licenseInfo?.spdxId}
+          <span
+            style={{ fontSize: ".6em" }}
+            className={
+              "px-1 py-0 ms-1 d-inlineblock btn btn-sm " +
+              (repo.viewerSubscription === "SUBSCRIBED"
+                ? "btn-success"
+                : "btn-outline-secondary")
+            }
+          >
+            {repo.viewerSubscription}
+          </span>
+          <span>{license}</span>
+        </div>
       </div>
     </li>
   );
