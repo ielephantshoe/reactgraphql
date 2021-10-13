@@ -1,26 +1,41 @@
-const githubQuery = (pageCount, queryString) => {
+const githubQuery = (
+  pageCount,
+  queryString,
+  paginationKeyword,
+  paginationString
+) => {
   return {
     query: `
     {
-    viewer {
+      viewer {
         name
-    }
-    search(query: "${queryString} user:butterflydesign sort:updated-desc", type: REPOSITORY, first: ${pageCount}) {
+      }
+      search(query: "${queryString} user:butterflydesign sort:updated-desc", type: REPOSITORY, ${paginationKeyword}: ${pageCount}, ${paginationString}) {
         repositoryCount
-        nodes {
+        edges {
+          cursor
+          node {
             ... on Repository {
-                name
-                description
-                id
-                url
-                viewerSubscription
-                    licenseInfo {
-                        spdxId
-                    }
+              name
+              description
+              id
+              url
+              viewerSubscription
+              licenseInfo {
+                spdxId
+              }
             }
+          }
         }
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+          hasPreviousPage
+        }
+      }
     }
-    }`,
+  `,
   };
 };
 
